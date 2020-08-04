@@ -13,6 +13,7 @@ function Mechanic(node) {
     this.wheel = document.querySelector('.wheel:not(.taken)');
     this.wheel.classList.add('taken');
   }
+
   const timeout = 1000 + Math.random() * 6000;
   setTimeout(() => this.ready(), timeout);
 
@@ -37,20 +38,28 @@ function main() {
   createMechanics();
 
   /** YOUR CODE HERE */
+
   const car = document.querySelector('#pit-stop');
-  const allEvents = []
+  let count = 0;
 
   const onEvent = () => {
-    setTimeout(() => { if(allEvents.length === 5) { car.classList.add('go') } }, 0)
-  }
-  car.addEventListener(TANK_FULL, (e) => {
-    allEvents.push(e.target)
-    onEvent()
-  })
-  car.addEventListener(WHEEL_INSTALLED, (e) => {
-    allEvents.push(e.target)
-    onEvent()
-  })
+    setTimeout(() => { 
+      if(count === 5) { 
+        car.classList.add('go') 
+      } 
+    }, 0)
+  };
+  
+  car.addEventListener(TANK_FULL, () => {
+    count = count + 1;
+    onEvent();
+  });
+
+  car.addEventListener(WHEEL_INSTALLED, () => {
+    count = count + 1;
+    onEvent();
+  });
+  
 }
 
 window.addEventListener('load', main);
